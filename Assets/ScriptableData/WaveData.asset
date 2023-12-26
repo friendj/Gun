@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ba2d0addd114e7db7968d163faa47e, type: 3}
+  m_Name: WaveData
+  m_EditorClassIdentifier: 
+  waves:
+  - infinite: 0
+    enemyCount: 10
+    timeBetweenSpawns: 1
+    moveSpeed: 3.2
+    hitsToKillPlayer: 5
+    enemyHealth: 5
+    skinColor: {r: 0.4009434, g: 0.5093968, b: 1, a: 0}
+  - infinite: 1
+    enemyCount: -1
+    timeBetweenSpawns: 2
+    moveSpeed: 8
+    hitsToKillPlayer: 5
+    enemyHealth: 10
+    skinColor: {r: 1, g: 0.71911913, b: 0.08962262, a: 0}

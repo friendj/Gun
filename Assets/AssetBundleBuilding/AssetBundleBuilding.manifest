@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 1439377059
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: gui/gameoverui.unity3d
+      Dependencies: {}
