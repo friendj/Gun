@@ -10,6 +10,12 @@ public class EnemyBomb : Enemy
     public ParticleSystem bombEffect;
     public LayerMask obstacleLayer;
 
+    //protected override void Start()
+    //{
+    //    base.Start();
+    //    StartCoroutine(Attack());
+    //}
+
     protected override IEnumerator Attack()
     {
         navMeshAgent.enabled = false;
@@ -44,40 +50,35 @@ public class EnemyBomb : Enemy
         Collider[] colliders = Physics.OverlapSphere(pos, 3f, obstacleLayer);
         foreach (Collider collider in colliders)
         {
-            Obstacle obstacle = collider.GetComponent<Obstacle>();
-            if (obstacle != null)
-            {
-                Vector3 obstaclePos = obstacle.transform.position;
-                obstacle.Destroyed(Vector3.Distance(transform.position, obstaclePos), (obstaclePos - transform.position).normalized, skinMaterial.color);
-            }
+                if (collider.CompareTag("Player"))
+                {
+                    targetEntity.TakeDamage(damage);
+                }
+                else
+                {
+                    Obstacle obstacle = collider.GetComponent<Obstacle>();
+                    if (obstacle != null)
+                    {
+                        Vector3 obstaclePos = obstacle.transform.position;
+                        obstacle.Destroyed(Vector3.Distance(transform.position, obstaclePos), (obstaclePos - transform.position).normalized, skinMaterial.color);
+                    }
+                }
         }
 
         Destroy(Instantiate(bombEffect, pos, Quaternion.identity).gameObject, bombEffect.startLifetime);
-        Destroy(gameObject);
+        Dead();
     }
     protected override void Update()
     {
-        if (hasTarget)
+        if (hasTarget && !isBombing)
         {
-            if (Time.time > nextAttackTime)
+            float sqrDstToTarget = (transform.position - target.position).sqrMagnitude;
+            if (sqrDstToTarget < Mathf.Pow(attackDis + myCollisionRadius + targetCollisionRadius, 2))
             {
-                float sqrDstToTarget = (transform.position - target.position).sqrMagnitude;
-                if (sqrDstToTarget < Mathf.Pow(attackDis + myCollisionRadius + targetCollisionRadius, 2))
-                {
-                    nextAttackTime = Time.time + attackBetweenAttacks;
-                    StopCoroutine("Attack");
-                    StartCoroutine("Attack");
-                    Game.Instance.AudioManager.PlaySound("EnemyAttack", transform.position);
-                }
-            }
-        }
-        else
-        {
-            if (!isBombing)
-            {
+                nextAttackTime = Time.time + attackBetweenAttacks;
+                isBombing = true;
                 StopCoroutine("Attack");
                 StartCoroutine("Attack");
-                isBombing = true;
             }
         }
     }

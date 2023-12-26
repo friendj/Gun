@@ -29,6 +29,8 @@ public class Game : Singleton<Game>
     [Header("AudioDictionary")]
     public AudioDictionary audioDictionary;
 
+    private bool _isPause;
+
     protected override void Awake()
     {
         if (Instance == null)
@@ -70,6 +72,14 @@ public class Game : Singleton<Game>
     {
         GUI.Show("GameOverUI");
         //GUI.Show("gui/gameoverui.unity3d", "GameOverUI");
+    }
+
+    public bool isPause
+    {
+        get
+        {
+            return _isPause;
+        }
     }
 
     public UIManager GUI
@@ -199,5 +209,17 @@ public class Game : Singleton<Game>
         {
             EventNextWaveBegin();
         }
+    }
+
+    public void Pause()
+    {
+        _isPause = true;
+        Time.timeScale = 0;
+    }
+
+    public void Continue()
+    {
+        _isPause = false;
+        Time.timeScale = 1;
     }
 }

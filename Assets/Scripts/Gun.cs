@@ -54,8 +54,11 @@ public class Gun : MonoBehaviour
     private void LateUpdate()
     {
         transform.localPosition = Vector3.SmoothDamp(transform.localPosition, Vector3.zero, ref recoilSmoothDampVelocity, recoilMoveSettleTime);
-        recoilAngle = Mathf.SmoothDamp(recoilAngle, 0, ref recoilRotSmoothDampVelocity, recoilRotationSettleTime);
-        transform.localEulerAngles = transform.localEulerAngles + Vector3.left * recoilAngle;
+        if (isReloading)
+        {
+            recoilAngle = Mathf.SmoothDamp(recoilAngle, 0, ref recoilRotSmoothDampVelocity, recoilRotationSettleTime);
+            transform.localEulerAngles = transform.localEulerAngles + Vector3.left * recoilAngle;
+        }
     }
 
     private void Shoot()

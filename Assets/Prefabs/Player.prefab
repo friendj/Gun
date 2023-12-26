@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4215412463707578216}
   - component: {fileID: 850077688933021101}
   - component: {fileID: 203218491712903068}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e034e08c3268e8a4191aa5c1d939ff9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 3
+  startingHealth: 100
   superman: 1
   moveSpeed: 5
 --- !u!114 &203218491712903068

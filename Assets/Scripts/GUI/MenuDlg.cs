@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
-public class MenuDlg : MonoBehaviour
+public class MenuDlg : GUIBase
 {
     public GameObject panelMainMenu;
     public GameObject panelOptionMenu;
@@ -14,6 +15,8 @@ public class MenuDlg : MonoBehaviour
     public Toggle[] resolutionToggles;
     public int[] screenWidths;
     int activeScreenResIndex;
+
+    public TextMeshProUGUI textPlay;
 
     private void Start()
     {
@@ -34,9 +37,30 @@ public class MenuDlg : MonoBehaviour
         SetScreenResolution(activeScreenResIndex);
     }
 
+    public override void Refresh()
+    {
+        if (Game.Instance != null)
+        {
+            if (Game.Instance.isPause)
+            {
+                textPlay.text = "Continue";
+            }
+            else
+            {
+                textPlay.text = "Play";
+            }
+        }
+    }
+
     public void OnClickPlay()
     {
-        SceneManager.LoadScene("Game1");
+        if (Game.Instance != null && Game.Instance.isPause)
+        {
+            Game.Instance.Continue();
+            Close();
+        }
+        else
+            SceneManager.LoadScene("Game1");
     }
 
     public void OnClickOption()

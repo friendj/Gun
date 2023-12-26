@@ -22,3 +22,5 @@ MonoBehaviour:
     uiObj: {fileID: 718878380516556848, guid: dbbe6e95ca55c1444b2d80d91a3c085c, type: 3}
   - uiName: MainShowWaveInfoDlg
     uiObj: {fileID: 762509408433042269, guid: 3458169aca0768647bf5a3eab2e824ec, type: 3}
+  - uiName: MenuDlg
+    uiObj: {fileID: 1710075353785002391, guid: 06a944f23dfdb6d4897a8e93d4874db5, type: 3}

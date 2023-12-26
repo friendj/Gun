@@ -13,7 +13,7 @@ public class Obstacle : MonoBehaviour
 
     IEnumerator BeginDestroy(float distance, Vector3 direction, Color color)
     {
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(distance / 10f);
         ParticleSystem particle = Instantiate(destroyEffect, transform.position, Quaternion.FromToRotation(transform.forward, direction));
         Material particleMat = particle.GetComponent<Renderer>().material;
         Material material = GetComponent<Renderer>().material;  // get when need use

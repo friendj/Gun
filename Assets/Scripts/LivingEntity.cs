@@ -4,6 +4,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
 {
     public float startingHealth;
     public bool superman;
+    [SerializeField]
     protected float health;
     protected bool isDead;
 
@@ -22,8 +23,8 @@ public class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(float damage)
     {
-        if (superman) return;
         health -= damage;
+        if (superman) health = Mathf.Max(health, 1);
         if (health <= 0 && !isDead)
         {
             Dead();

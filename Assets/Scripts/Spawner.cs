@@ -175,11 +175,13 @@ public class Spawner : Singleton<Spawner>
         enemiesRemainingAlive = enemiesRemainingToSpawn;
         // set player in MapCenter
         player.transform.position = new Vector3(0, 1, 0);
+        ui = Game.Instance.GUI.Show("MainShowWaveInfoDlg");
+        MainShowWaveInfoDlg mainShowWaveInfoDlg = ui.GetComponent<MainShowWaveInfoDlg>();
+        mainShowWaveInfoDlg.OnNewWave(currentWaveNumber, currentWave.enemyCount);
         if (EventWaveChanged != null)
         {
             EventWaveChanged(currentWaveNumber, currentWave.enemyCount);
         }
-        Game.Instance.GUI.Show("MainShowWaveInfoDlg");
     }
 
     void NextWaveEnd()

@@ -151,4 +151,4 @@ MonoBehaviour:
   bombEffect: {fileID: 5078106320986162692, guid: f66ad716d54846f44b83821bd89ad941, type: 3}
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2304

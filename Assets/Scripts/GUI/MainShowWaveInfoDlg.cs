@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MainShowWaveInfoDlg : GUIBase
 {
@@ -9,6 +10,8 @@ public class MainShowWaveInfoDlg : GUIBase
     public TextMeshProUGUI textWave;
     public TextMeshProUGUI textBulletCnt;
     public TextMeshProUGUI textScore;
+
+    public Button btnPause;
 
     void Start()
     {
@@ -21,6 +24,7 @@ public class MainShowWaveInfoDlg : GUIBase
         Game.Instance.ScoreManager.EventScoreChange += OnScoreChanged;
         transform.SetAsFirstSibling();
         OnScoreChanged(0);
+        btnPause.onClick.AddListener(OnClickPause);
     }
 
     private void OnDestroy()
@@ -34,6 +38,15 @@ public class MainShowWaveInfoDlg : GUIBase
             Game.Instance.ScoreManager.EventScoreChange -= OnScoreChanged;
             Game.Instance.EventLoadSceneBegin -= OnSceneLoadBegin;
             Game.Instance.EventLoadSceneEnd -= OnSceneLoadEnd;
+        }
+    }
+
+    void OnClickPause()
+    {
+        if (Game.Instance != null)
+        {
+            Game.Instance.Pause();
+            Game.Instance.GUI.Show("MenuDlg");
         }
     }
 
@@ -61,7 +74,7 @@ public class MainShowWaveInfoDlg : GUIBase
         textBulletCnt.gameObject.SetActive(true);
     }
 
-    void OnNewWave(int waveNum, int enemyCnt)
+    public void OnNewWave(int waveNum, int enemyCnt)
     {
         textEnemyCnt.text = string.Format("Enemy Count:{0}", enemyCnt < 0? "infinite": enemyCnt);
         textWave.text = string.Format("Wave {0}", waveNum);
