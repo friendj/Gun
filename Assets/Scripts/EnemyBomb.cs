@@ -20,30 +20,19 @@ public class EnemyBomb : Enemy
     {
         navMeshAgent.enabled = false;
         currentState = State.Attacking;
-        int flickerDur = 5;
-        int flickTimes = 10;
-        int curFlickTimes = 0;
-        
-        float percent = 0;
+        int totalFlickTimes = 10;
+        int flickTimes = 0;
 
-        skinMaterial.color = Color.red;
-        while (curFlickTimes <= flickTimes)
+        render.material = attackMat;
+        while (flickTimes <= totalFlickTimes)
         {
 
-            percent += Time.deltaTime * flickerDur;
-
-            float i = (-Mathf.Pow(percent, 2) + percent) * 4;
-
-            skinMaterial.color = Color.Lerp(originalColor, Color.red, i);
-
-            if (i <= 0)
-            {
-                percent = 0;
-                curFlickTimes++;
-            }
-            yield return null;
+            render.material = attackMat;
+            yield return new WaitForSeconds(0.1f);
+            render.material = baseMat;
+            yield return new WaitForSeconds(0.1f);
+            flickTimes += 1;
         }
-        skinMaterial.color = originalColor;
 
         Vector3 pos = transform.position;
 
@@ -60,12 +49,13 @@ public class EnemyBomb : Enemy
                     if (obstacle != null)
                     {
                         Vector3 obstaclePos = obstacle.transform.position;
-                        obstacle.Destroyed(Vector3.Distance(transform.position, obstaclePos), (obstaclePos - transform.position).normalized, skinMaterial.color);
+                        obstacle.Destroyed(Vector3.Distance(transform.position, obstaclePos), (obstaclePos - transform.position).normalized, baseMat.color);
                     }
                 }
         }
-
-        Destroy(Instantiate(bombEffect, pos, Quaternion.identity).gameObject, bombEffect.startLifetime);
+        GameObject deathParticle = Instantiate(bombEffect, pos, Quaternion.identity).gameObject;
+        deathParticle.GetComponent<Renderer>().sharedMaterial = baseMat;
+        Destroy(deathParticle, bombEffect.startLifetime);
         Dead();
     }
     protected override void Update()

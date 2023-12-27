@@ -24,12 +24,28 @@ public class Enemy : LivingEntity
     protected float targetCollisionRadius;
     protected float damage = 1;
 
-    protected Material skinMaterial;
-    protected Color originalColor;
+    protected Renderer render;
+    protected static Material baseMat;
+    protected static Material attackMat;
 
     protected bool hasTarget = false;
 
     public static event System.Action EventEnemyDeath;
+
+    private void Awake()
+    {
+        render = GetComponent<Renderer>();
+        if (baseMat == null)
+        {
+            baseMat = render.material;
+        }
+
+        if (attackMat == null)
+        {
+            attackMat = new Material(baseMat);
+            attackMat.color = Color.red;
+        }
+    }
 
     protected override void Start()
     {
@@ -39,8 +55,6 @@ public class Enemy : LivingEntity
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         myCollisionRadius = GetComponent<CapsuleCollider>().radius;
-        skinMaterial = GetComponent<Renderer>().material;
-        originalColor = skinMaterial.color;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -77,6 +91,12 @@ public class Enemy : LivingEntity
         }
     }
 
+    public void SetBaseMatColor(Color color)
+    {
+        baseMat.color = color;
+        render.material = baseMat;
+    }
+
     protected virtual IEnumerator Attack()
     {
         navMeshAgent.enabled = false;
@@ -88,7 +108,7 @@ public class Enemy : LivingEntity
         float percent = 0;
         bool hasAppliedDamage = false;
 
-        skinMaterial.color = Color.red;
+        render.material = attackMat;
         while(percent < 1)
         {
             if (percent > .5f && !hasAppliedDamage)
@@ -102,7 +122,7 @@ public class Enemy : LivingEntity
             transform.position = Vector3.Lerp(originalPosition, targetPosition, interpolation);
             yield return null;
         }
-        skinMaterial.color = originalColor;
+        render.material = baseMat;
 
         navMeshAgent.enabled = true;
         currentState = State.Chasing;
@@ -137,7 +157,9 @@ public class Enemy : LivingEntity
             if (EventEnemyDeath != null)
                 EventEnemyDeath();
             Game.Instance.AudioManager.PlaySound("EnemyDead", transform.position);
-            Destroy(Instantiate(deathEffect.gameObject, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection)), deathEffect.startLifetime);
+            GameObject deathParticle = Instantiate(deathEffect, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection)).gameObject;
+            deathEffect.GetComponent<Renderer>().sharedMaterial = baseMat;
+            Destroy(deathParticle, deathEffect.startLifetime);
         }
         base.TakeHit(damage, hitPoint, hitDirection);
     }

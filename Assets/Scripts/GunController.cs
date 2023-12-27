@@ -5,7 +5,7 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     public Transform weaponHold;
-    public Gun startingGun;
+    public Gun[] equipGuns = new Gun[3];
     Gun equippedGun;
 
     public System.Action<Gun> EventUnEquipGun;
@@ -14,18 +14,26 @@ public class GunController : MonoBehaviour
 
     private void Start()
     {
-        if (startingGun != null)
+        if (equipGuns.Length > 0 && equipGuns[0] != null)
         {
-            EquipGun(startingGun);
+            EquipGun(equipGuns[0]);
         }
     }
 
     public void ReEquipStartGun()
     {
         // TODO:
-        if (startingGun != null)
+        if (equipGuns.Length > 0 && equipGuns[0] != null)
         {
-            EquipGun(startingGun);
+            EquipGun(equipGuns[0]);
+        }
+    }
+
+    public void EquipGun(int idx)
+    {
+        if (idx < equipGuns.Length && equipGuns[idx] != null)
+        {
+            EquipGun(equipGuns[idx]);
         }
     }
 

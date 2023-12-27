@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,6 +66,24 @@ public class Game : Singleton<Game>
         if (Input.GetKeyDown(KeyCode.G))
         {
             GameOver();
+        }
+
+        ChangeGun();
+    }
+
+    private void ChangeGun()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            gamePlayer.GunController.EquipGun(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            gamePlayer.GunController.EquipGun(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            gamePlayer.GunController.EquipGun(2);
         }
     }
 

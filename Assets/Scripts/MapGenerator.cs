@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -168,19 +169,23 @@ public class MapGenerator : MonoBehaviour
         // generating nav mash mask
         Transform maskLeft = Instantiate(navMeshMask, (maxMapSize.x + currentMap.mapSize.x) / 4f * Vector3.left * tileSize + maskPosOffset, Quaternion.Euler(Vector3.right * 90));
         maskLeft.parent = mapHolder;
-        maskLeft.localScale = new Vector3((maxMapSize.x - currentMap.mapSize.x) / 2f, currentMap.mapSize.y) * tileSize;
+        maskLeft.localScale = new Vector3((maxMapSize.x - currentMap.mapSize.x) / 2f, currentMap.mapSize.y, 1f) * tileSize;
+        maskLeft.AddComponent<BoxCollider>();
 
         Transform maskRight = Instantiate(navMeshMask, (maxMapSize.x + currentMap.mapSize.x) / 4f * Vector3.right * tileSize + maskPosOffset, Quaternion.Euler(Vector3.right * 90));
         maskRight.parent = mapHolder;
-        maskRight.localScale = new Vector3((maxMapSize.x - currentMap.mapSize.x) / 2f, currentMap.mapSize.y) * tileSize;
+        maskRight.localScale = new Vector3((maxMapSize.x - currentMap.mapSize.x) / 2f, currentMap.mapSize.y, 1f) * tileSize;
+        maskRight.AddComponent<BoxCollider>();
 
         Transform maskTop = Instantiate(navMeshMask, (maxMapSize.y + currentMap.mapSize.y) / 4f * Vector3.forward * tileSize + maskPosOffset, Quaternion.Euler(Vector3.right * 90));
         maskTop.parent = mapHolder;
-        maskTop.localScale = new Vector3(maxMapSize.x, (maxMapSize.y - currentMap.mapSize.y) / 2f) * tileSize;
+        maskTop.localScale = new Vector3(maxMapSize.x, (maxMapSize.y - currentMap.mapSize.y) / 2f, 1f) * tileSize;
+        maskTop.AddComponent<BoxCollider>();
 
         Transform maskBottom = Instantiate(navMeshMask, (maxMapSize.y + currentMap.mapSize.y) / 4f * Vector3.back * tileSize + maskPosOffset, Quaternion.Euler(Vector3.right * 90));
         maskBottom.parent = mapHolder;
-        maskBottom.localScale = new Vector3(maxMapSize.x, (maxMapSize.y - currentMap.mapSize.y) / 2f) * tileSize;
+        maskBottom.localScale = new Vector3(maxMapSize.x, (maxMapSize.y - currentMap.mapSize.y) / 2f, 1f) * tileSize;
+        maskBottom.AddComponent<BoxCollider>();
 
         mapFloor.localScale = new Vector3(currentMap.mapSize.x * tileSize, currentMap.mapSize.y * tileSize);
     }

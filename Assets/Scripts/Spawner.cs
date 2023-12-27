@@ -35,16 +35,22 @@ public class Spawner : Singleton<Spawner>
     private void Start()
     {
         player = FindObjectOfType<Player>();
-        playerTrans = player.transform;
-        playerPos = playerTrans.position;
-        player.EventOnDeath += OnPlayerDeath;
+        if (player != null)
+        {
+            playerTrans = player.transform;
+            playerPos = playerTrans.position;
+            player.EventOnDeath += OnPlayerDeath;
+        }
         nextCheckCampingTime = checkCampingTime;
 
         map = FindObjectOfType<MapGenerator>();
         NextWave();
 
-        Game.Instance.EventNextWaveCenter += NextWaveCenter;
-        Game.Instance.EventNextWaveEnd += NextWaveEnd;
+        if (Game.Instance != null)
+        {
+            Game.Instance.EventNextWaveCenter += NextWaveCenter;
+            Game.Instance.EventNextWaveEnd += NextWaveEnd;
+        }
     }
 
     protected override void OnDestroy()
@@ -78,6 +84,11 @@ public class Spawner : Singleton<Spawner>
 
     void CheckCampingTime()
     {
+        if (player == null)
+        {
+            isPlayerComping = false;
+            return;
+        }
         if (Time.time > nextCheckCampingTime)
         {
             nextCheckCampingTime = Time.time + checkCampingTime;
@@ -105,28 +116,23 @@ public class Spawner : Singleton<Spawner>
         else
             tile = map.GetRandomOpenTile();
 
-        Material material = tile.GetComponent<Renderer>().material;
-        Color baseColor = material.color;
-        Color finalColor = Color.red;
+        Tile tileScript = tile.GetComponent<Tile>();
 
-        float spawnTime = 1f;
-        float playAnimTime = 0f;
-        float playSpeed = 8f;
+        int playTime = 8;
+        int playAnimTime = 0;
 
-        while(playAnimTime < spawnTime)
+        while(playAnimTime < playTime)
         {
-            material.color = Color.Lerp(baseColor, finalColor, Mathf.PingPong(playSpeed * playAnimTime, 1));
-            
-            playAnimTime += Time.deltaTime;
-
-            yield return null;
+            tileScript.SetCreateEnemyColor();
+            yield return new WaitForSeconds(0.1f);
+            tileScript.SetNormalColor();
+            yield return new WaitForSeconds(0.1f);
+            playAnimTime += 1;
         }
-        material.color = baseColor;
 
         int enemyIndex = Random.Range(0, enemy.Length);
         Enemy spawnedEnemy = Instantiate(enemy[enemyIndex], tile.position + Vector3.up, Quaternion.identity) as Enemy;
-        Material mat = spawnedEnemy.GetComponent<Renderer>().sharedMaterial;
-        mat.color = currentWave.skinColor;
+        spawnedEnemy.SetBaseMatColor(currentWave.skinColor);
         spawnedEnemy.EventOnDeath += OnEnemyDeath;
     }
 
@@ -148,6 +154,13 @@ public class Spawner : Singleton<Spawner>
 
     void NextWave()
     {
+        if (Game.Instance == null)
+        {
+            isBeginWave = true;
+            currentWave = waves.GetWave(1);
+            map.GenerateMap(0);
+            return;
+        }
         if (currentWaveNumber > 0)
             Game.Instance.AudioManager.PlaySound2D("LevelComplete");
         GUIBase ui = Game.Instance.GUI.Show("NextWaveDlg");
