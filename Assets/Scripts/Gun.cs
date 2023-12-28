@@ -17,6 +17,9 @@ public class Gun : MonoBehaviour
     public int burstCount;
     int shotsRemainingInBurst;
 
+    [Header("Gun Sprite")]
+    public Sprite showPic;
+
     [Header("Effects")]
     public Transform shellEjection;
     public Shell shell;

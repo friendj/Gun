@@ -13,15 +13,23 @@ public class MainShowWaveInfoDlg : GUIBase
 
     public Button btnPause;
 
+    [Header("Gun Object")]
+    public Image[] imgGuns;
+    public TextMeshProUGUI[] textGuns;
+
     void Start()
     {
-        Game.Instance.EventNextWaveBegin += OnWaveBegin;
-        Game.Instance.EventNextWaveEnd += OnWaveEnd;
-        Game.Instance.GameSpawner.EventWaveChanged += OnNewWave;
-        Game.Instance.EventLoadSceneBegin += OnSceneLoadBegin;
-        Game.Instance.EventLoadSceneEnd += OnSceneLoadEnd;
-        Game.Instance.GamePlayer.GunController.EventBulletCntChanged += OnBulletCntChanged;
-        Game.Instance.ScoreManager.EventScoreChange += OnScoreChanged;
+        if (Game.Instance != null)
+        {
+            Game.Instance.EventNextWaveBegin += OnWaveBegin;
+            Game.Instance.EventNextWaveEnd += OnWaveEnd;
+            Game.Instance.GameSpawner.EventWaveChanged += OnNewWave;
+            Game.Instance.EventLoadSceneBegin += OnSceneLoadBegin;
+            Game.Instance.EventLoadSceneEnd += OnSceneLoadEnd;
+            Game.Instance.GamePlayer.GunController.EventBulletCntChanged += OnBulletCntChanged;
+            Game.Instance.GamePlayer.GunController.EventEquipGun += OnEquipGun;
+            Game.Instance.ScoreManager.EventScoreChange += OnScoreChanged;
+        }
         transform.SetAsFirstSibling();
         OnScoreChanged(0);
         btnPause.onClick.AddListener(OnClickPause);
@@ -35,6 +43,7 @@ public class MainShowWaveInfoDlg : GUIBase
             Game.Instance.EventNextWaveEnd -= OnWaveEnd;
             Game.Instance.GameSpawner.EventWaveChanged -= OnNewWave;
             Game.Instance.GamePlayer.GunController.EventBulletCntChanged -= OnBulletCntChanged;
+            Game.Instance.GamePlayer.GunController.EventEquipGun -= OnEquipGun;
             Game.Instance.ScoreManager.EventScoreChange -= OnScoreChanged;
             Game.Instance.EventLoadSceneBegin -= OnSceneLoadBegin;
             Game.Instance.EventLoadSceneEnd -= OnSceneLoadEnd;
@@ -88,5 +97,32 @@ public class MainShowWaveInfoDlg : GUIBase
     void OnScoreChanged(int score)
     {
         textScore.text = string.Format("Score: {0}", Game.Instance.ScoreManager.score);
+    }
+
+    void RefreshEquipGun()
+    {
+        if (Game.Instance == null || Game.Instance.GamePlayer == null)
+            return;
+        for (int i = 0; i < Game.Instance.GamePlayer.GunController.equipGuns.Length; i++)
+        {
+            if (i < imgGuns.Length)
+            {
+                imgGuns[i].sprite = Game.Instance.GamePlayer.GunController.equipGuns[i].showPic;
+                textGuns[i].text = (i + 1).ToString();
+            }
+        }
+    }
+
+    void OnEquipGun(Gun gun, int gunIndex)
+    {
+        for (int i = 0; i < imgGuns.Length; i++)
+        {
+            Color imgColor = imgGuns[i].color;
+            Color textColor = textGuns[i].color;
+            imgColor.a = gunIndex == i ? 1 : 100 / 255f;
+            textColor.a = gunIndex == i ? 1 : 100 / 255f;
+            imgGuns[i].color = imgColor;
+            textGuns[i].color = textColor;
+        }
     }
 }

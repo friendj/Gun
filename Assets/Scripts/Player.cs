@@ -39,6 +39,7 @@ public class Player : LivingEntity
             gunController.EventEquipGun += OnEquipGun;
             gunController.EventUnEquipGun += OnUnEquipGun;
         }
+        gunController.ReEquipStartGun();
     }
 
     private void OnDestroy()
@@ -116,7 +117,7 @@ public class Player : LivingEntity
         gunController.ReEquipStartGun();
     }
 
-    void OnEquipGun(Gun gun)
+    void OnEquipGun(Gun gun, int gunIdx)
     {
 
     }

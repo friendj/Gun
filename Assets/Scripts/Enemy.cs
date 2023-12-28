@@ -158,7 +158,7 @@ public class Enemy : LivingEntity
                 EventEnemyDeath();
             Game.Instance.AudioManager.PlaySound("EnemyDead", transform.position);
             GameObject deathParticle = Instantiate(deathEffect, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection)).gameObject;
-            deathEffect.GetComponent<Renderer>().sharedMaterial = baseMat;
+            deathParticle.GetComponent<Renderer>().sharedMaterial = baseMat;
             Destroy(deathParticle, deathEffect.startLifetime);
         }
         base.TakeHit(damage, hitPoint, hitDirection);

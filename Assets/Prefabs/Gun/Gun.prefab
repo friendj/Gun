@@ -55,6 +55,7 @@ MonoBehaviour:
   msBetweenShots: 100
   muzzleVelocity: 20
   burstCount: 3
+  showPic: {fileID: 21300000, guid: 4807804bee0fe34429632e0a7de58250, type: 3}
   shellEjection: {fileID: 2179001167099529627}
   shell: {fileID: 4135909807754169628, guid: e8cd1cda2932d4b8cbd9d23f2cb9a040, type: 3}
   muzzleFlash: {fileID: 0}

@@ -145,5 +145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 5
   superman: 0
+  health: 0
   refreshRate: 0.25
   deathEffect: {fileID: 3421145462818860063, guid: 496c02f5602ab4098ba6198f35202811, type: 3}

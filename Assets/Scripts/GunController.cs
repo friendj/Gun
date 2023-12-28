@@ -7,9 +7,10 @@ public class GunController : MonoBehaviour
     public Transform weaponHold;
     public Gun[] equipGuns = new Gun[3];
     Gun equippedGun;
+    int curGunIndex;
 
     public System.Action<Gun> EventUnEquipGun;
-    public System.Action<Gun> EventEquipGun;
+    public System.Action<Gun, int> EventEquipGun;
     public System.Action<int> EventBulletCntChanged;
 
     private void Start()
@@ -25,7 +26,7 @@ public class GunController : MonoBehaviour
         // TODO:
         if (equipGuns.Length > 0 && equipGuns[0] != null)
         {
-            EquipGun(equipGuns[0]);
+            EquipGun(0);
         }
     }
 
@@ -33,6 +34,7 @@ public class GunController : MonoBehaviour
     {
         if (idx < equipGuns.Length && equipGuns[idx] != null)
         {
+            curGunIndex = idx;
             EquipGun(equipGuns[idx]);
         }
     }
@@ -89,7 +91,7 @@ public class GunController : MonoBehaviour
     void OnEquipGun()
     {
         if (EventEquipGun != null)
-            EventEquipGun(equippedGun);
+            EventEquipGun(equippedGun, curGunIndex);
         if (equippedGun != null)
             equippedGun.EventBulletCntChanged += OnBulletCntChanged;
         OnBulletCntChanged(equippedGun.bulletCount);
