@@ -47,6 +47,8 @@ public class Gun : MonoBehaviour
 
     public System.Action<int> EventBulletCntChanged;
 
+    public int BulletCountInMag{ get { return bulletCountInMag; } }
+
     private void Start()
     {
         muzzleFlash = GetComponent<MuzzleFlash>();

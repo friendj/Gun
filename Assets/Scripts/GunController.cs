@@ -6,6 +6,7 @@ public class GunController : MonoBehaviour
 {
     public Transform weaponHold;
     public Gun[] equipGuns = new Gun[3];
+    public Gun[] equipGunInstances = new Gun[3];
     Gun equippedGun;
     int curGunIndex;
 
@@ -17,7 +18,7 @@ public class GunController : MonoBehaviour
     {
         if (equipGuns.Length > 0 && equipGuns[0] != null)
         {
-            EquipGun(equipGuns[0]);
+            EquipGun(0);
         }
     }
 
@@ -34,20 +35,20 @@ public class GunController : MonoBehaviour
     {
         if (idx < equipGuns.Length && equipGuns[idx] != null)
         {
-            curGunIndex = idx;
-            EquipGun(equipGuns[idx]);
+            if (equippedGun != null)
+                OnUnEquipGun();
+            if (equipGunInstances[idx] == null)
+                equipGunInstances[idx] = CreateGun(equipGuns[idx]);
+            equippedGun = equipGunInstances[idx];
+            OnEquipGun();
         }
     }
 
-    public void EquipGun(Gun gunToEquip)
+    public Gun CreateGun(Gun gun)
     {
-        if (equippedGun != null){
-            OnUnEquipGun();
-            Destroy(equippedGun.gameObject);
-        }
-        equippedGun = Instantiate(gunToEquip, weaponHold.position, weaponHold.rotation);
-        equippedGun.transform.parent = weaponHold;
-        OnEquipGun();
+        Gun newGun = Instantiate(gun, weaponHold.position, weaponHold.rotation);
+        newGun.transform.parent = weaponHold;
+        return newGun;
     }
 
     public void OnTriggerHold()
@@ -90,15 +91,23 @@ public class GunController : MonoBehaviour
 
     void OnEquipGun()
     {
+        if (equippedGun != null)
+        {
+            equippedGun.gameObject.SetActive(true);
+        }    
         if (EventEquipGun != null)
             EventEquipGun(equippedGun, curGunIndex);
         if (equippedGun != null)
             equippedGun.EventBulletCntChanged += OnBulletCntChanged;
-        OnBulletCntChanged(equippedGun.bulletCount);
+        OnBulletCntChanged(equippedGun.BulletCountInMag);
     }
 
     void OnUnEquipGun()
     {
+        if (equippedGun != null)
+        {
+            equippedGun.gameObject.SetActive(false);
+        }
         if (EventUnEquipGun != null)
             EventUnEquipGun(equippedGun);
         if (equippedGun != null)

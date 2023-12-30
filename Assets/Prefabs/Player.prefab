@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 100
   superman: 1
+  health: 0
   moveSpeed: 5
 --- !u!114 &203218491712903068
 MonoBehaviour:
@@ -179,7 +180,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponHold: {fileID: 7961899632122212191}
-  startingGun: {fileID: 6028950513865885000, guid: a125191a86d984794a75f22500d70f3d, type: 3}
+  equipGuns:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &7455396430730473261
 GameObject:
   m_ObjectHideFlags: 0

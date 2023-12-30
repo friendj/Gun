@@ -30,7 +30,18 @@ public class Enemy : LivingEntity
 
     protected bool hasTarget = false;
 
+    [Header("drop objects(gameObject, percent(0-1))")]
+    [SerializeField]
+    protected DropObject[] dropObjects;
+
     public static event System.Action EventEnemyDeath;
+
+    [System.Serializable]
+    public class DropObject
+    {
+        public GameObject gameObject;
+        public float dropPercent;
+    };
 
     private void Awake()
     {
@@ -85,7 +96,8 @@ public class Enemy : LivingEntity
                     nextAttackTime = Time.time + attackBetweenAttacks;
                     StopCoroutine("Attack");
                     StartCoroutine("Attack");
-                    Game.Instance.AudioManager.PlaySound("EnemyAttack", transform.position);
+                    if (Game.Instance.AudioManager)
+                        Game.Instance.AudioManager.PlaySound("EnemyAttack", transform.position);
                 }
             }
         }
@@ -150,17 +162,46 @@ public class Enemy : LivingEntity
     public override void TakeHit(float damage, Vector3 hitPoint, Vector3 hitDirection)
     {
         Debug.Log("Take hit");
-        Game.Instance.AudioManager.PlaySound("Impact", transform.position);
+        if (Game.Instance.AudioManager)
+            Game.Instance.AudioManager.PlaySound("Impact", transform.position);
         if (damage >= health)
         {
             //Debug.Log("Create deathEffect, " + hitDirection + " , " + transform.forward);
             if (EventEnemyDeath != null)
                 EventEnemyDeath();
-            Game.Instance.AudioManager.PlaySound("EnemyDead", transform.position);
+            if (Game.Instance.AudioManager)
+                Game.Instance.AudioManager.PlaySound("EnemyDead", transform.position);
             GameObject deathParticle = Instantiate(deathEffect, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection)).gameObject;
             deathParticle.GetComponent<Renderer>().sharedMaterial = baseMat;
             Destroy(deathParticle, deathEffect.startLifetime);
         }
         base.TakeHit(damage, hitPoint, hitDirection);
     }
+
+    // drop objects
+    [ContextMenu("Self Destroy")]
+    protected override void Dead()
+    {
+        DropObjects();
+        base.Dead();
+    }
+
+    void DropObjects()
+    {
+        if (dropObjects.Length <= 0)
+            return;
+        int index = Random.Range(0, dropObjects.Length);
+        DropObject dropObject = dropObjects[index];
+        float chance = Random.Range(0f, 1f);
+        if (chance < dropObject.dropPercent)
+        {
+            GameObject treatment = Instantiate(dropObject.gameObject, transform.position, Quaternion.identity);
+            Rigidbody rigidbody = treatment.GetComponent<Rigidbody>();
+            Vector3 randomDir = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
+            rigidbody.AddForce(randomDir * 300);
+            //Destroy(treatment, 5);  // todo: 暂时5s 后续修改
+        }
+    }
+
+    // end drop objects
 }

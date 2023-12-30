@@ -31,6 +31,16 @@ public class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
+    public virtual bool IsMaxHealth()
+    {
+        return health == startingHealth;
+    }
+
+    public virtual void Treatment(float hp)
+    {
+        health = Mathf.Min(startingHealth, health + hp);
+    }
+
     protected virtual void Dead()
     {
         OnDeath();
