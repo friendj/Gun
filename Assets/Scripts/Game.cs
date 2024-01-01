@@ -67,24 +67,6 @@ public class Game : Singleton<Game>
         {
             GameOver();
         }
-
-        ChangeGun();
-    }
-
-    private void ChangeGun()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            gamePlayer.GunController.EquipGun(0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            gamePlayer.GunController.EquipGun(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            gamePlayer.GunController.EquipGun(2);
-        }
     }
 
     private void GameOver()

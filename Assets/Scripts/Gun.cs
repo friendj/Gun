@@ -13,7 +13,7 @@ public class Gun : MonoBehaviour
     public float muzzleVelocity = 35;
     float nextShootTime;
 
-    bool triggerReleaseSinceLastShoot;
+    bool triggerReleaseSinceLastShoot = true;
     public int burstCount;
     int shotsRemainingInBurst;
 
@@ -45,6 +45,10 @@ public class Gun : MonoBehaviour
     int bulletCountInMag = 30;
     bool isReloading;
 
+    Pool projectilePool;
+    Pool shellPool;
+    bool isDestroy;
+
     public System.Action<int> EventBulletCntChanged;
 
     public int BulletCountInMag{ get { return bulletCountInMag; } }
@@ -54,6 +58,27 @@ public class Gun : MonoBehaviour
         muzzleFlash = GetComponent<MuzzleFlash>();
         shotsRemainingInBurst = burstCount;
         bulletCountInMag = bulletCount;
+
+        projectilePool = new Pool(projectile);
+        shellPool = new Pool(shell);
+
+        StartCoroutine("ClearPool");
+    }
+
+    private void OnDestroy()
+    {
+        isDestroy = true;
+        StopCoroutine("ClearPool");
+    }
+
+    IEnumerator ClearPool()
+    {
+        while (!isDestroy)
+        {
+            yield return new WaitForSeconds(10);
+            projectilePool.ClearPool();
+            shellPool.ClearPool();
+        }
     }
 
     private void LateUpdate()
@@ -91,18 +116,32 @@ public class Gun : MonoBehaviour
                     break;
                 bulletCountInMag--;
                 OnBulletCntChange();
-                Projectile newProjectile = Instantiate(projectile, projectileSpawners[i].position, projectileSpawners[i].rotation) as Projectile;
+                PoolObject gameObject = projectilePool.GetObject();
+                if (gameObject == null)
+                    break;
+                Projectile newProjectile = gameObject as Projectile;
+                newProjectile.transform.position = projectileSpawners[i].position;
+                newProjectile.transform.rotation = projectileSpawners[i].rotation;
                 newProjectile.SetSpeed(muzzleVelocity);
+                newProjectile.SetActive(true);
             }
             nextShootTime = Time.time + msBetweenShots / 1000;
-            Shell newShell = Instantiate(shell, shellEjection.position, shellEjection.rotation) as Shell;
-            muzzleFlash.Activate();
+            PoolObject shellObj = shellPool.GetObject();
+            if (shellObj != null)
+            {
+                Shell newShell = shellObj.GetComponent<Shell>();
+                newShell.transform.position = shellEjection.position;
+                newShell.transform.rotation = shellEjection.rotation;
+                newShell.SetActive(true);
+            }
 
+            muzzleFlash.Activate();
             transform.localPosition += Vector3.back * .05f;
             recoilAngle += Random.Range(recoilAngleMinMax.x, recoilAngleMinMax.y);
             recoilAngle = Mathf.Clamp(recoilAngle, 0, 30);
 
-            Game.Instance.AudioManager.PlaySound(shootingClip, transform.position);
+            if (Game.Instance && Game.Instance.AudioManager != null)
+                Game.Instance.AudioManager.PlaySound(shootingClip, transform.position);
         }
     }
 
@@ -132,7 +171,8 @@ public class Gun : MonoBehaviour
         if (bulletCountInMag == bulletCount)
             return;
         StartCoroutine(AnimReload());
-        Game.Instance.AudioManager.PlaySound(reloadClip, transform.position);
+        if (Game.Instance && Game.Instance.AudioManager)
+            Game.Instance.AudioManager.PlaySound(reloadClip, transform.position);
     }
 
     IEnumerator AnimReload()

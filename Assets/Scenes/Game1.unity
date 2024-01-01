@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -478,18 +478,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 203218491712903068, guid: 9e67b38addf37804895c1bf102b89b92, type: 3}
-      propertyPath: equipGuns.Array.data[0]
-      value: 
-      objectReference: {fileID: 6028950513865885000, guid: a125191a86d984794a75f22500d70f3d, type: 3}
-    - target: {fileID: 203218491712903068, guid: 9e67b38addf37804895c1bf102b89b92, type: 3}
-      propertyPath: equipGuns.Array.data[1]
-      value: 
-      objectReference: {fileID: 6028950513865885000, guid: 64c7ac772a81fe84390a93829ad967a9, type: 3}
-    - target: {fileID: 203218491712903068, guid: 9e67b38addf37804895c1bf102b89b92, type: 3}
-      propertyPath: equipGuns.Array.data[2]
-      value: 
-      objectReference: {fileID: 6028950513865885000, guid: 2fab8b750391b478fb02227e9d9ce646, type: 3}
     - target: {fileID: 4232254040266959593, guid: 9e67b38addf37804895c1bf102b89b92, type: 3}
       propertyPath: m_RootOrder
       value: 3

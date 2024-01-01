@@ -96,6 +96,24 @@ public class Player : LivingEntity
         {
             gunController.Reload();
         }
+
+        ChangeGun();
+    }
+
+    private void ChangeGun()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GunController.EquipGun(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GunController.EquipGun(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GunController.EquipGun(2);
+        }
     }
 
     public GunController GunController

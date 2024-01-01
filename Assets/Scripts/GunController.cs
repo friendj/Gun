@@ -41,6 +41,7 @@ public class GunController : MonoBehaviour
                 equipGunInstances[idx] = CreateGun(equipGuns[idx]);
             equippedGun = equipGunInstances[idx];
             OnEquipGun();
+            OnTriggerRelease();
         }
     }
 

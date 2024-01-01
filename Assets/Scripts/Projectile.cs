@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : PoolObject
 {
     public LayerMask collisionMask;
     float speed = 10;
@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, lifetime);
+        //Destroy(gameObject, lifetime);
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, .1f, collisionMask);
         if (colliders.Length > 0)
@@ -29,8 +29,9 @@ public class Projectile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         float moveDistance = Time.deltaTime * speed;
         CheckCollisions(moveDistance);
         transform.Translate(Vector3.forward * moveDistance);
@@ -55,7 +56,7 @@ public class Projectile : MonoBehaviour
             {
                 Destroy(Instantiate(bulletOnObstacleEffect, hitPoint, Quaternion.FromToRotation(Vector3.forward, -transform.forward)).gameObject, bulletOnObstacleEffect.startLifetime);
             }
-            Destroy(gameObject);
+            Disappear();
             return;
         }
 
@@ -64,6 +65,7 @@ public class Projectile : MonoBehaviour
         {
             damageObj.TakeHit(damage, hitPoint, transform.forward);
         }
-        Destroy(gameObject);
+        Disappear();
+        //Destroy(gameObject);
     }
 }

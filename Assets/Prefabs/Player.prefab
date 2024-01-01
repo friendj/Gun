@@ -37,7 +37,7 @@ Transform:
   m_Children:
   - {fileID: 7961899632122212191}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5761619066892583639
 MeshFilter:
@@ -181,6 +181,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponHold: {fileID: 7961899632122212191}
   equipGuns:
+  - {fileID: 6028950513865885000, guid: a125191a86d984794a75f22500d70f3d, type: 3}
+  - {fileID: 6028950513865885000, guid: 64c7ac772a81fe84390a93829ad967a9, type: 3}
+  - {fileID: 6028950513865885000, guid: 2fab8b750391b478fb02227e9d9ce646, type: 3}
+  equipGunInstances:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

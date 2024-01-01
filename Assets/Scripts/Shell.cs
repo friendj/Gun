@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shell : MonoBehaviour
+public class Shell : PoolObject
 {
     public Rigidbody rb;
     public float forceMin;
@@ -18,8 +18,6 @@ public class Shell : MonoBehaviour
         rb.AddForce(transform.right * force);
         rb.AddTorque(Random.insideUnitSphere * force);
 
-        //StartCoroutine(Fade());
-        Destroy(gameObject, lifeTime);
     }
 
     IEnumerator Fade()
