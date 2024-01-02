@@ -1,2 +1,2 @@
-python -m http.server 8080
+python -m http.server -d ./ 8080
 pause

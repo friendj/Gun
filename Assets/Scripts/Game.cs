@@ -71,8 +71,8 @@ public class Game : Singleton<Game>
 
     private void GameOver()
     {
-        GUI.Show("GameOverUI");
-        //GUI.Show("gui/gameoverui.unity3d", "GameOverUI");
+        //GUI.Show("GameOverUI");
+        GUI.Show("gui/gameoverui.unity3d", "GameOverDlg");
     }
 
     public bool isPause
@@ -97,7 +97,7 @@ public class Game : Singleton<Game>
                 }
                 else
                 {
-                    _uiManager = Instantiate(uiManagerPrefab, transform).GetComponent<UIManager>();
+                    _uiManager = Instantiate(uiManagerPrefab).GetComponent<UIManager>();
                 }
             }
             return _uiManager;

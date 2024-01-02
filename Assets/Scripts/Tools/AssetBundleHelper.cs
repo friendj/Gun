@@ -8,6 +8,7 @@ public class AssetBundleHelper: NormalSingleton<AssetBundleHelper>
 
 #if UNITY_EDITOR
     [MenuItem("Assets/Build All AssetBundles")]
+    [System.Obsolete]
     static void BuildAllAssetBundle()
     {
         if (!Directory.Exists(dir))
@@ -20,7 +21,7 @@ public class AssetBundleHelper: NormalSingleton<AssetBundleHelper>
         BuildPipeline.BuildAssetBundles(dir, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneOSX);
 #elif UNITY_EDITOR_64
         Debug.Log("building all asset bundle, platform: 64");
-        BuildPipeline.BuildAssetBundles(dir, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows64);
+        BuildPipeline.BuildAssetBundles(dir, BuildAssetBundleOptions.CollectDependencies, BuildTarget.StandaloneWindows64);
 #endif
     }
 #endif

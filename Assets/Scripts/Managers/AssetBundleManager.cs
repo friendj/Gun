@@ -43,10 +43,15 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
             if (File.Exists(path))
             {
                 AssetBundle assetBundle = AssetBundle.LoadFromFile(path);
+
                 if (objName != null && callback != null)
                 {
+                    Object[] allAsset = assetBundle.LoadAllAssets();
                     GameObject obj = assetBundle.LoadAsset<GameObject>(objName);
-                    callback(obj);
+                    if (obj != null)
+                    {
+                        callback(obj);
+                    }
                 }
             }
             else
@@ -63,7 +68,7 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
         yield return request.SendWebRequest();
 
-        if (request.isDone)
+        if (request.isDone && request.result == UnityWebRequest.Result.Success)
         {
             string savePath = Application.streamingAssetsPath + "/" + name;
             if (!Directory.Exists(Path.GetDirectoryName(savePath)))
@@ -74,6 +79,10 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
             fs.Close();
             fs.Dispose();
             LoadAssetBundle(name, objName, callback);
+        }
+        else
+        {
+            Debug.LogError(string.Format("Download asset bundle Error, error:{0}", request.error));
         }
     }
 }

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 253857754
+CRC: 4027880125
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 51448acbb7e37b500b5b948ae03f642e
+    Hash: ddbf04d3010f8856b0c71f40ecc47fd4
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0be19381dc59b36e44ed5d8b31e93ebf
+    Hash: 639f91e9db79e698368ea56ddfcaa9cb
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -26,15 +26,25 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 2914e53b162af4b3a96611eb37c26466, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 94db9ff28b8a94d178effef598ca68ca, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: c67c327a8abc5804999dfd9382e5ab07, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: fceb257b157f57c40b42e2c6701a47d4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: aabbff4e090a149838e8cf036fcb0a19, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 444d3a0244b904c2d82a1a2cf5065f75, type: 3}
 - Class: 114
@@ -103,11 +113,17 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.ColorBlock
 - AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.FontData
+- AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.Navigation
 - AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Slider/SliderEvent
+- AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.SpriteState
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Toggle/ToggleEvent
 Assets:
 - Assets/Prefabs/GUI/GameOverDlg.prefab
 Dependencies: []

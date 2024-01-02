@@ -150,7 +150,7 @@ MonoBehaviour:
   deathEffect: {fileID: 3421145462818860063, guid: 496c02f5602ab4098ba6198f35202811, type: 3}
   dropObjects:
   - gameObject: {fileID: 5948384605314089677, guid: c3d0f0110189e4c91ab6a589d0dd658d, type: 3}
-    dropPercent: 0.5
+    dropPercent: 0.05
   isBombing: 0
   bombEffect: {fileID: 5078106320986162692, guid: f66ad716d54846f44b83821bd89ad941, type: 3}
   obstacleLayer:
