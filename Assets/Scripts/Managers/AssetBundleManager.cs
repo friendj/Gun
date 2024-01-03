@@ -43,20 +43,29 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
             if (File.Exists(path))
             {
                 AssetBundle assetBundle = AssetBundle.LoadFromFile(path);
-
-                if (objName != null && callback != null)
-                {
-                    Object[] allAsset = assetBundle.LoadAllAssets();
-                    GameObject obj = assetBundle.LoadAsset<GameObject>(objName);
-                    if (obj != null)
-                    {
-                        callback(obj);
-                    }
-                }
+                assetBundles[name] = assetBundle;
+                RealLoadAssetBundle(name, objName, callback);
             }
             else
             {
                 StartCoroutine(DownLoadAssetBundle(name, objName, callback));
+            }
+        }
+        else
+        {
+            RealLoadAssetBundle(name, objName, callback);
+        }
+    }
+
+    void RealLoadAssetBundle(string name, string objName, System.Action<GameObject> callback = null)
+    {
+        AssetBundle assetBundle = assetBundles[name];
+        if (objName != null && callback != null)
+        {
+            GameObject obj = assetBundle.LoadAsset<GameObject>(objName);
+            if (obj != null)
+            {
+                callback(obj);
             }
         }
     }
