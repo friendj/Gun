@@ -8,9 +8,16 @@ public class PlayerController : MonoBehaviour
     Vector3 velocity;
     Rigidbody myRigibody;
 
+    DissolveEffect dissolveEffect;
+
     void Start()
     {
         myRigibody = GetComponent<Rigidbody>();
+        dissolveEffect = GetComponent<DissolveEffect>();
+        if (dissolveEffect.enabled)
+        {
+            dissolveEffect.OnAppear();
+        }
     }
 
     void Update()
