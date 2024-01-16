@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+//  https://blog.csdn.net/m0_37602827/article/details/131587207
+
 [DisallowMultipleComponent]  // 不允许同一对象添加多个该组件
 public class DissolveEffect : MonoBehaviour
 {
